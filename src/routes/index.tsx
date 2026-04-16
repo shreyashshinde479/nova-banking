@@ -1,5 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -18,6 +18,7 @@ export const Route = createFileRoute("/")({
 /* ─────────────── Navbar ─────────────── */
 function Navbar() {
   const navRef = useRef<HTMLElement>(null);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const el = navRef.current;
@@ -30,44 +31,95 @@ function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll when menu open
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
   return (
-    <nav
-      ref={navRef}
-      className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 transition-all duration-300"
-      style={{ backgroundColor: "oklch(0.09 0.02 270 / 70%)", borderBottom: "1px solid transparent" }}
-    >
-      {/* Logo */}
-      <div className="flex items-center gap-2">
-        <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] flex items-center justify-center text-white font-black text-sm">
-          N
+    <>
+      <nav
+        ref={navRef}
+        className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 transition-all duration-300"
+        style={{ backgroundColor: "oklch(0.09 0.02 270 / 70%)", borderBottom: "1px solid transparent" }}
+      >
+        {/* Logo */}
+        <div className="flex items-center gap-2">
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] flex items-center justify-center text-white font-black text-sm">
+            N
+          </div>
+          <span className="text-xl font-bold tracking-tight text-foreground">
+            Nex<span className="text-primary">Bank</span>
+          </span>
         </div>
-        <span className="text-xl font-bold tracking-tight text-foreground">
-          Nex<span className="text-primary">Bank</span>
-        </span>
-      </div>
 
-      {/* Nav links — hidden on mobile */}
-      <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
-        {["Features", "Security", "About"].map((item) => (
-          <button
-            key={item}
-            className="relative py-1 transition-colors hover:text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
-          >
-            {item}
+        {/* Nav links — hidden on mobile */}
+        <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
+          {["Features", "Security", "About"].map((item) => (
+            <button
+              key={item}
+              className="relative py-1 transition-colors hover:text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+            >
+              {item}
+            </button>
+          ))}
+        </div>
+
+        {/* Auth buttons — hidden on mobile */}
+        <div className="hidden md:flex items-center gap-3">
+          <button className="px-5 py-2 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary hover:text-primary">
+            Login
           </button>
-        ))}
-      </div>
+          <button className="px-5 py-2 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)] transition-all hover:shadow-[0_0_36px_oklch(0.65_0.2_260_/_55%)] hover:scale-105">
+            Sign Up
+          </button>
+        </div>
 
-      {/* Auth buttons */}
-      <div className="flex items-center gap-3">
-        <button className="px-5 py-2 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary hover:text-primary">
-          Login
+        {/* Hamburger — visible on mobile */}
+        <button
+          className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-[5px]"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
+          <span className={`block w-5 h-[2px] bg-foreground rounded transition-all duration-300 ${mobileOpen ? "translate-y-[7px] rotate-45" : ""}`} />
+          <span className={`block w-5 h-[2px] bg-foreground rounded transition-all duration-300 ${mobileOpen ? "opacity-0 scale-0" : ""}`} />
+          <span className={`block w-5 h-[2px] bg-foreground rounded transition-all duration-300 ${mobileOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
         </button>
-        <button className="px-5 py-2 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)] transition-all hover:shadow-[0_0_36px_oklch(0.65_0.2_260_/_55%)] hover:scale-105">
-          Sign Up
-        </button>
+      </nav>
+
+      {/* Mobile menu overlay */}
+      <div
+        className={`fixed inset-0 z-40 transition-all duration-500 md:hidden ${mobileOpen ? "visible opacity-100" : "invisible opacity-0"}`}
+        style={{ backgroundColor: "oklch(0.09 0.02 270 / 95%)", backdropFilter: "blur(24px)" }}
+      >
+        <div className={`flex flex-col items-center justify-center h-full gap-8 transition-transform duration-500 ${mobileOpen ? "translate-y-0" : "-translate-y-8"}`}>
+          {["Features", "Security", "About"].map((item) => (
+            <button
+              key={item}
+              onClick={() => setMobileOpen(false)}
+              className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
+            >
+              {item}
+            </button>
+          ))}
+          <div className="flex flex-col gap-3 mt-4 w-56">
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="w-full py-3 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="w-full py-3 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)]"
+            >
+              Sign Up
+            </button>
+          </div>
+        </div>
       </div>
-    </nav>
+    </>
   );
 }
 
