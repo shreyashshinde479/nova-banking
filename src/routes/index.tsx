@@ -31,6 +31,7 @@ function Navbar() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
+  // Lock body scroll when menu open
   useEffect(() => {
     document.body.style.overflow = mobileOpen ? "hidden" : "";
     return () => { document.body.style.overflow = ""; };
@@ -43,33 +44,78 @@ function Navbar() {
         className="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-12 py-4 transition-all duration-300"
         style={{ backgroundColor: "oklch(0.09 0.02 270 / 70%)", borderBottom: "1px solid transparent" }}
       >
+        {/* Logo */}
         <div className="flex items-center gap-2">
-          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] flex items-center justify-center text-white font-black text-sm">N</div>
-          <span className="text-xl font-bold tracking-tight text-foreground">Nex<span className="text-primary">Bank</span></span>
+          <div className="h-9 w-9 rounded-lg bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] flex items-center justify-center text-white font-black text-sm">
+            N
+          </div>
+          <span className="text-xl font-bold tracking-tight text-foreground">
+            Nex<span className="text-primary">Bank</span>
+          </span>
         </div>
+
+        {/* Nav links — hidden on mobile */}
         <div className="hidden md:flex items-center gap-8 text-sm text-muted-foreground">
           {["Features", "Security", "About"].map((item) => (
-            <button key={item} className="relative py-1 transition-colors hover:text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full">{item}</button>
+            <button
+              key={item}
+              className="relative py-1 transition-colors hover:text-foreground after:absolute after:bottom-0 after:left-0 after:h-[2px] after:w-0 after:bg-primary after:transition-all after:duration-300 hover:after:w-full"
+            >
+              {item}
+            </button>
           ))}
         </div>
+
+        {/* Auth buttons — hidden on mobile */}
         <div className="hidden md:flex items-center gap-3">
-          <button className="px-5 py-2 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary hover:text-primary">Login</button>
-          <button className="px-5 py-2 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)] transition-all hover:shadow-[0_0_36px_oklch(0.65_0.2_260_/_55%)] hover:scale-105">Sign Up</button>
+          <button className="px-5 py-2 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary hover:text-primary">
+            Login
+          </button>
+          <button className="px-5 py-2 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)] transition-all hover:shadow-[0_0_36px_oklch(0.65_0.2_260_/_55%)] hover:scale-105">
+            Sign Up
+          </button>
         </div>
-        <button className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-[5px]" onClick={() => setMobileOpen((v) => !v)} aria-label="Toggle menu">
+
+        {/* Hamburger — visible on mobile */}
+        <button
+          className="md:hidden relative w-8 h-8 flex flex-col items-center justify-center gap-[5px]"
+          onClick={() => setMobileOpen((v) => !v)}
+          aria-label="Toggle menu"
+        >
           <span className={`block w-5 h-[2px] bg-foreground rounded transition-all duration-300 ${mobileOpen ? "translate-y-[7px] rotate-45" : ""}`} />
           <span className={`block w-5 h-[2px] bg-foreground rounded transition-all duration-300 ${mobileOpen ? "opacity-0 scale-0" : ""}`} />
           <span className={`block w-5 h-[2px] bg-foreground rounded transition-all duration-300 ${mobileOpen ? "-translate-y-[7px] -rotate-45" : ""}`} />
         </button>
       </nav>
-      <div className={`fixed inset-0 z-40 transition-all duration-500 md:hidden ${mobileOpen ? "visible opacity-100" : "invisible opacity-0"}`} style={{ backgroundColor: "oklch(0.09 0.02 270 / 95%)", backdropFilter: "blur(24px)" }}>
+
+      {/* Mobile menu overlay */}
+      <div
+        className={`fixed inset-0 z-40 transition-all duration-500 md:hidden ${mobileOpen ? "visible opacity-100" : "invisible opacity-0"}`}
+        style={{ backgroundColor: "oklch(0.09 0.02 270 / 95%)", backdropFilter: "blur(24px)" }}
+      >
         <div className={`flex flex-col items-center justify-center h-full gap-8 transition-transform duration-500 ${mobileOpen ? "translate-y-0" : "-translate-y-8"}`}>
           {["Features", "Security", "About"].map((item) => (
-            <button key={item} onClick={() => setMobileOpen(false)} className="text-2xl font-semibold text-foreground hover:text-primary transition-colors">{item}</button>
+            <button
+              key={item}
+              onClick={() => setMobileOpen(false)}
+              className="text-2xl font-semibold text-foreground hover:text-primary transition-colors"
+            >
+              {item}
+            </button>
           ))}
           <div className="flex flex-col gap-3 mt-4 w-56">
-            <button onClick={() => setMobileOpen(false)} className="w-full py-3 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary">Login</button>
-            <button onClick={() => setMobileOpen(false)} className="w-full py-3 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)]">Sign Up</button>
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="w-full py-3 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary"
+            >
+              Login
+            </button>
+            <button
+              onClick={() => setMobileOpen(false)}
+              className="w-full py-3 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)]"
+            >
+              Sign Up
+            </button>
           </div>
         </div>
       </div>
@@ -87,6 +133,8 @@ function HeroSection() {
       gsap.from(".hero-sub", { y: 40, opacity: 0, duration: 1, delay: 0.3, ease: "power3.out" });
       gsap.from(".hero-btns", { y: 30, opacity: 0, duration: 0.8, delay: 0.6, ease: "power3.out" });
       gsap.from(".hero-card", { y: 80, opacity: 0, rotation: 6, duration: 1.2, delay: 0.5, ease: "power3.out", stagger: 0.2 });
+
+      // Floating animation for cards
       gsap.to(".hero-card-1", { y: -18, rotation: -2, duration: 3, repeat: -1, yoyo: true, ease: "sine.inOut" });
       gsap.to(".hero-card-2", { y: 14, rotation: 3, duration: 3.5, repeat: -1, yoyo: true, ease: "sine.inOut", delay: 0.5 });
     }, sectionRef);
@@ -94,45 +142,56 @@ function HeroSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="relative min-h-screen flex items-center overflow-hidden pt-20">
+    <section
+      ref={sectionRef}
+      className="relative min-h-screen flex items-center overflow-hidden pt-20"
+    >
+      {/* BG image */}
       <div className="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&q=80" alt="Abstract fintech background" className="w-full h-full object-cover opacity-25" />
+        <img
+          src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1920&q=80"
+          alt="Abstract fintech background"
+          className="w-full h-full object-cover opacity-25"
+        />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background" />
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-blue)]/10 via-transparent to-[var(--neon-purple)]/10" />
       </div>
+
+      {/* Glow orbs */}
       <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[var(--neon-blue)] opacity-[0.07] blur-[120px]" />
       <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[var(--neon-purple)] opacity-[0.07] blur-[120px]" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 items-center">
+        {/* Text */}
         <div className="flex flex-col gap-6">
           <div className="hero-title">
-            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-6">#1 Digital Banking Platform</span>
+            <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-6">
+              #1 Digital Banking Platform
+            </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
               Next Generation{" "}
-              <span className="bg-gradient-to-r from-[var(--neon-blue)] via-[var(--neon-cyan)] to-[var(--neon-purple)] bg-clip-text text-transparent">Digital Banking</span>{" "}
+              <span className="bg-gradient-to-r from-[var(--neon-blue)] via-[var(--neon-cyan)] to-[var(--neon-purple)] bg-clip-text text-transparent">
+                Digital Banking
+              </span>{" "}
               Experience
             </h1>
           </div>
-          <p className="hero-sub text-lg text-muted-foreground max-w-lg">Secure. Fast. Smart banking at your fingertips. Manage your finances with cutting-edge technology and bank-level security.</p>
+          <p className="hero-sub text-lg text-muted-foreground max-w-lg">
+            Secure. Fast. Smart banking at your fingertips. Manage your finances with cutting-edge technology and bank-level security.
+          </p>
           <div className="hero-btns flex flex-wrap gap-4">
-            <button className="px-7 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_30px_oklch(0.65_0.2_260_/_30%)] transition-all hover:shadow-[0_0_50px_oklch(0.65_0.2_260_/_50%)] hover:scale-105">Get Started</button>
-            <button className="px-7 py-3 rounded-xl font-semibold border border-[var(--glass-border)] text-foreground backdrop-blur-sm transition-all hover:border-primary hover:bg-primary/10">Explore Features</button>
-          </div>
-          {/* Trust avatars */}
-          <div className="hero-btns flex items-center gap-3 mt-2">
-            <div className="flex -space-x-2">
-              {["photo-1494790108377-be9c29b29330", "photo-1507003211169-0a1dd7228f2d", "photo-1534528741775-53994a69daeb", "photo-1438761681033-6461ffad8d80"].map((id, i) => (
-                <img key={i} src={`https://images.unsplash.com/${id}?w=80&h=80&fit=crop&crop=face`} alt="" className="w-8 h-8 rounded-full border-2 border-background object-cover" />
-              ))}
-            </div>
-            <div>
-              <span className="text-sm font-semibold text-foreground">2.4M+</span>
-              <span className="text-xs text-muted-foreground ml-1">happy users</span>
-            </div>
+            <button className="px-7 py-3 rounded-xl font-semibold text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_30px_oklch(0.65_0.2_260_/_30%)] transition-all hover:shadow-[0_0_50px_oklch(0.65_0.2_260_/_50%)] hover:scale-105">
+              Get Started
+            </button>
+            <button className="px-7 py-3 rounded-xl font-semibold border border-[var(--glass-border)] text-foreground backdrop-blur-sm transition-all hover:border-primary hover:bg-primary/10">
+              Explore Features
+            </button>
           </div>
         </div>
 
+        {/* Floating cards */}
         <div className="relative h-[400px] md:h-[500px] hidden md:block">
+          {/* Credit card 1 */}
           <div className="hero-card hero-card-1 absolute top-8 right-4 w-[340px] h-[210px] rounded-2xl p-6 flex flex-col justify-between bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_20px_60px_oklch(0.65_0.2_260_/_30%)]">
             <div className="flex justify-between items-start">
               <span className="text-white/80 text-xs font-medium tracking-widest uppercase">NexBank</span>
@@ -141,11 +200,19 @@ function HeroSection() {
             <div>
               <div className="text-white/70 text-xs tracking-[0.3em] font-mono mb-2">•••• •••• •••• 4829</div>
               <div className="flex justify-between items-end">
-                <div><div className="text-white/50 text-[10px] uppercase">Card Holder</div><div className="text-white text-sm font-medium">Alex Johnson</div></div>
-                <div><div className="text-white/50 text-[10px] uppercase">Expires</div><div className="text-white text-sm font-medium">09/28</div></div>
+                <div>
+                  <div className="text-white/50 text-[10px] uppercase">Card Holder</div>
+                  <div className="text-white text-sm font-medium">Alex Johnson</div>
+                </div>
+                <div>
+                  <div className="text-white/50 text-[10px] uppercase">Expires</div>
+                  <div className="text-white text-sm font-medium">09/28</div>
+                </div>
               </div>
             </div>
           </div>
+
+          {/* Credit card 2 */}
           <div className="hero-card hero-card-2 absolute bottom-12 left-0 w-[300px] h-[190px] rounded-2xl p-5 flex flex-col justify-between bg-gradient-to-br from-[oklch(0.3_0.05_270)] to-[oklch(0.18_0.03_270)] border border-[var(--glass-border)] backdrop-blur-xl shadow-[0_20px_60px_oklch(0_0_0_/_40%)]">
             <div className="flex justify-between items-center">
               <span className="text-white/60 text-xs tracking-widest uppercase">Platinum</span>
@@ -156,6 +223,8 @@ function HeroSection() {
               <div className="text-white text-sm font-medium">$24,850.00</div>
             </div>
           </div>
+
+          {/* Floating stat pill */}
           <div className="hero-card absolute top-1/2 left-12 px-4 py-2.5 rounded-xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] flex items-center gap-3 shadow-lg">
             <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
               <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
@@ -168,40 +237,10 @@ function HeroSection() {
         </div>
       </div>
 
+      {/* Scroll indicator */}
       <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground animate-bounce">
         <span className="text-xs">Scroll</span>
         <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M19 14l-7 7m0 0l-7-7" /></svg>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────── Trusted By ─────────────── */
-function TrustedBySection() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".trust-logo", {
-        scrollTrigger: { trigger: ".trust-strip", start: "top 90%" },
-        opacity: 0, y: 20, duration: 0.6, stagger: 0.1,
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
-  const logos = ["Visa", "Mastercard", "Stripe", "Apple Pay", "Google Pay", "PayPal"];
-
-  return (
-    <section ref={ref} className="py-12 px-6 md:px-12 border-y border-[var(--glass-border)]">
-      <div className="trust-strip max-w-7xl mx-auto flex flex-col items-center gap-6">
-        <span className="text-xs text-muted-foreground uppercase tracking-widest">Trusted by leading companies worldwide</span>
-        <div className="flex flex-wrap justify-center items-center gap-8 md:gap-14">
-          {logos.map((name) => (
-            <span key={name} className="trust-logo text-lg md:text-xl font-bold text-muted-foreground/40 hover:text-muted-foreground/70 transition-colors cursor-default tracking-wide">
-              {name}
-            </span>
-          ))}
-        </div>
       </div>
     </section>
   );
@@ -213,25 +252,33 @@ const features = [
     title: "Account Management",
     desc: "Full control over your accounts with real-time balance tracking, spending insights, and automated budgeting tools.",
     img: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=600&q=80",
-    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" /></svg>
+    ),
   },
   {
     title: "Instant Transactions",
     desc: "Send and receive money instantly with zero fees. Lightning-fast transfers powered by next-gen infrastructure.",
     img: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80",
-    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+    ),
   },
   {
     title: "Secure Payments",
     desc: "Bank-grade encryption protects every transaction. Multi-factor auth and biometric security built in.",
     img: "https://images.unsplash.com/photo-1556742111-a301076d9d18?w=600&q=80",
-    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" /></svg>
+    ),
   },
   {
     title: "Loan Services",
     desc: "Get pre-approved loans in minutes. Competitive rates, flexible terms, and a fully digital application process.",
     img: "https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80",
-    icon: <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>,
+    icon: (
+      <svg className="w-6 h-6" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+    ),
   },
 ];
 
@@ -240,89 +287,55 @@ function FeaturesSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".feat-heading", { scrollTrigger: { trigger: ".feat-heading", start: "top 85%" }, y: 40, opacity: 0, duration: 0.8 });
-      gsap.from(".feat-card", { scrollTrigger: { trigger: ".feat-grid", start: "top 80%" }, y: 60, opacity: 0, duration: 0.7, stagger: 0.15, ease: "power3.out" });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <section ref={ref} className="relative py-16 md:py-20 px-6 md:px-12">
-      {/* Decorative bg image */}
-      <div className="absolute inset-0 pointer-events-none">
-        <img src="https://images.unsplash.com/photo-1620714223084-8fcacc6dfd8d?w=1920&q=80" alt="" className="w-full h-full object-cover opacity-[0.04]" />
-        <div className="absolute inset-0 bg-background/80" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto">
-        <div className="feat-heading text-center mb-12">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">Why Choose NexBank</span>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
-            Powerful Features for{" "}
-            <span className="bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] bg-clip-text text-transparent">Modern Banking</span>
-          </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">Everything you need to manage, grow, and protect your finances — all in one platform.</p>
-        </div>
-
-        <div className="feat-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {features.map((f) => (
-            <div key={f.title} className="feat-card group relative rounded-2xl overflow-hidden bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_oklch(0.65_0.2_260_/_20%)] hover:-translate-y-2">
-              <div className="h-44 overflow-hidden relative">
-                <img src={f.img} alt={f.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-[oklch(0.13_0.02_270)]" />
-              </div>
-              <div className="p-5 relative">
-                <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-3 border border-primary/25">{f.icon}</div>
-                <h3 className="font-bold text-lg mb-2 text-foreground">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────── Showcase Banner ─────────────── */
-function ShowcaseBanner() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".showcase-img", {
-        scrollTrigger: { trigger: ".showcase-img", start: "top 85%" },
-        scale: 0.9, opacity: 0, duration: 1, stagger: 0.2,
+      gsap.from(".feat-heading", {
+        scrollTrigger: { trigger: ".feat-heading", start: "top 85%" },
+        y: 40, opacity: 0, duration: 0.8,
+      });
+      gsap.from(".feat-card", {
+        scrollTrigger: { trigger: ".feat-grid", start: "top 80%" },
+        y: 60, opacity: 0, duration: 0.7, stagger: 0.15, ease: "power3.out",
       });
     }, ref);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={ref} className="py-4 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto grid grid-cols-3 gap-4 h-[200px] md:h-[280px]">
-        <div className="showcase-img rounded-2xl overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80" alt="Analytics dashboard" className="w-full h-full object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-          <div className="absolute bottom-4 left-4">
-            <div className="text-xs text-muted-foreground">Analytics</div>
-            <div className="text-sm font-bold text-foreground">Real-time Insights</div>
-          </div>
+    <section ref={ref} className="relative py-28 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto">
+        <div className="feat-heading text-center mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">
+            Why Choose NexBank
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+            Powerful Features for{" "}
+            <span className="bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] bg-clip-text text-transparent">
+              Modern Banking
+            </span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Everything you need to manage, grow, and protect your finances — all in one platform.
+          </p>
         </div>
-        <div className="showcase-img rounded-2xl overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=80" alt="Financial charts" className="w-full h-full object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-          <div className="absolute bottom-4 left-4">
-            <div className="text-xs text-muted-foreground">Portfolio</div>
-            <div className="text-sm font-bold text-foreground">Investment Tracking</div>
-          </div>
-        </div>
-        <div className="showcase-img rounded-2xl overflow-hidden relative">
-          <img src="https://images.unsplash.com/photo-1616514197671-15d99ce7a6f8?w=600&q=80" alt="Mobile banking" className="w-full h-full object-cover" loading="lazy" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
-          <div className="absolute bottom-4 left-4">
-            <div className="text-xs text-muted-foreground">Mobile</div>
-            <div className="text-sm font-bold text-foreground">Bank Anywhere</div>
-          </div>
+
+        <div className="feat-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {features.map((f) => (
+            <div
+              key={f.title}
+              className="feat-card group relative rounded-2xl overflow-hidden bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_oklch(0.65_0.2_260_/_20%)] hover:-translate-y-2"
+            >
+              <div className="h-40 overflow-hidden">
+                <img src={f.img} alt={f.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                <div className="absolute inset-0 h-40 bg-gradient-to-b from-transparent to-[var(--glass)]" />
+              </div>
+              <div className="p-5 relative">
+                <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-3 border border-primary/25">
+                  {f.icon}
+                </div>
+                <h3 className="font-bold text-lg mb-2 text-foreground">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </section>
@@ -335,8 +348,14 @@ function DashboardSection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".dash-text", { scrollTrigger: { trigger: ".dash-text", start: "top 85%" }, x: -60, opacity: 0, duration: 0.9, ease: "power3.out" });
-      gsap.from(".dash-panel", { scrollTrigger: { trigger: ".dash-panel", start: "top 85%" }, x: 60, opacity: 0, duration: 0.9, ease: "power3.out" });
+      gsap.from(".dash-text", {
+        scrollTrigger: { trigger: ".dash-text", start: "top 85%" },
+        x: -60, opacity: 0, duration: 0.9, ease: "power3.out",
+      });
+      gsap.from(".dash-panel", {
+        scrollTrigger: { trigger: ".dash-panel", start: "top 85%" },
+        x: 60, opacity: 0, duration: 0.9, ease: "power3.out",
+      });
     }, ref);
     return () => ctx.revert();
   }, []);
@@ -349,39 +368,42 @@ function DashboardSection() {
   ];
 
   return (
-    <section ref={ref} className="relative py-16 md:py-20 px-6 md:px-12 overflow-hidden">
+    <section ref={ref} className="relative py-28 px-6 md:px-12 overflow-hidden">
+      {/* Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full bg-[var(--neon-blue)] opacity-[0.05] blur-[150px]" />
 
-      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
+      <div className="max-w-7xl mx-auto grid lg:grid-cols-2 gap-16 items-center">
         <div className="dash-text">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">Smart Dashboard</span>
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">
+            Smart Dashboard
+          </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight mb-4">
             Your Finances,{" "}
-            <span className="bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--neon-blue)] bg-clip-text text-transparent">At a Glance</span>
+            <span className="bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--neon-blue)] bg-clip-text text-transparent">
+              At a Glance
+            </span>
           </h2>
-          <p className="text-muted-foreground mb-6 max-w-lg">A beautifully designed dashboard that puts you in control. Track spending, monitor investments, and manage cards — all from one place.</p>
-
-          {/* App screenshot */}
-          <div className="rounded-xl overflow-hidden border border-[var(--glass-border)] mb-6">
-            <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=800&q=80" alt="Dashboard preview" className="w-full h-44 object-cover" loading="lazy" />
-          </div>
-
-          <div className="grid grid-cols-2 gap-3">
+          <p className="text-muted-foreground mb-8 max-w-lg">
+            A beautifully designed dashboard that puts you in control. Track spending, monitor investments, and manage cards — all from one place.
+          </p>
+          <div className="grid grid-cols-2 gap-4">
             {[
               { label: "Active Users", value: "2.4M+" },
               { label: "Transactions/Day", value: "10M+" },
               { label: "Countries", value: "150+" },
               { label: "Uptime", value: "99.99%" },
             ].map((s) => (
-              <div key={s.label} className="p-3 rounded-xl bg-[var(--glass)] backdrop-blur border border-[var(--glass-border)]">
-                <div className="text-xl font-extrabold text-foreground">{s.value}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{s.label}</div>
+              <div key={s.label} className="p-4 rounded-xl bg-[var(--glass)] backdrop-blur border border-[var(--glass-border)]">
+                <div className="text-2xl font-extrabold text-foreground">{s.value}</div>
+                <div className="text-xs text-muted-foreground mt-1">{s.label}</div>
               </div>
             ))}
           </div>
         </div>
 
+        {/* Mock dashboard panel */}
         <div className="dash-panel rounded-2xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] p-6 shadow-[0_20px_80px_oklch(0_0_0_/_40%)]">
+          {/* Balance header */}
           <div className="flex justify-between items-start mb-6">
             <div>
               <div className="text-xs text-muted-foreground mb-1">Total Balance</div>
@@ -393,10 +415,14 @@ function DashboardSection() {
             </div>
             <div className="flex gap-2">
               {["1W", "1M", "1Y"].map((t) => (
-                <button key={t} className={`px-3 py-1 text-xs rounded-lg transition ${t === "1M" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>{t}</button>
+                <button key={t} className={`px-3 py-1 text-xs rounded-lg transition ${t === "1M" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:text-foreground"}`}>
+                  {t}
+                </button>
               ))}
             </div>
           </div>
+
+          {/* Mini chart (SVG) */}
           <div className="h-32 mb-6 relative">
             <svg viewBox="0 0 400 100" className="w-full h-full" preserveAspectRatio="none">
               <defs>
@@ -409,6 +435,8 @@ function DashboardSection() {
               <path d="M0,70 Q50,60 100,50 T200,35 T300,25 T400,15 L400,100 L0,100 Z" fill="url(#chartGrad)" />
             </svg>
           </div>
+
+          {/* Transactions */}
           <div className="text-xs text-muted-foreground mb-3 font-medium">Recent Transactions</div>
           <div className="space-y-3">
             {transactions.map((tx) => (
@@ -422,72 +450,11 @@ function DashboardSection() {
                     <div className="text-xs text-muted-foreground">{tx.type} · {tx.time}</div>
                   </div>
                 </div>
-                <div className={`text-sm font-semibold ${tx.amount.startsWith("+") ? "text-emerald-400" : "text-foreground"}`}>{tx.amount}</div>
+                <div className={`text-sm font-semibold ${tx.amount.startsWith("+") ? "text-emerald-400" : "text-foreground"}`}>
+                  {tx.amount}
+                </div>
               </div>
             ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────── App Preview ─────────────── */
-function AppPreviewSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".app-phone", {
-        scrollTrigger: { trigger: ".app-phone", start: "top 85%" },
-        y: 60, opacity: 0, duration: 1, ease: "power3.out",
-      });
-      gsap.from(".app-text-block", {
-        scrollTrigger: { trigger: ".app-text-block", start: "top 85%" },
-        x: 40, opacity: 0, duration: 0.8, ease: "power3.out",
-      });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
-  return (
-    <section ref={ref} className="relative py-16 md:py-20 px-6 md:px-12 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        <img src="https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=1920&q=80" alt="" className="w-full h-full object-cover opacity-[0.06]" />
-        <div className="absolute inset-0 bg-background/90" />
-      </div>
-      <div className="relative max-w-7xl mx-auto grid lg:grid-cols-2 gap-12 items-center">
-        {/* Phone mockup */}
-        <div className="app-phone flex justify-center">
-          <div className="relative w-[260px] md:w-[300px]">
-            <div className="rounded-[2.5rem] border-4 border-[var(--glass-border)] overflow-hidden shadow-[0_30px_80px_oklch(0_0_0_/_50%)]">
-              <img src="https://images.unsplash.com/photo-1579621970563-ebec7560ff3e?w=400&q=80" alt="Mobile banking app" className="w-full aspect-[9/16] object-cover" loading="lazy" />
-            </div>
-            {/* Floating notification */}
-            <div className="absolute -right-8 top-1/4 px-3 py-2 rounded-xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] shadow-lg flex items-center gap-2 animate-bounce" style={{ animationDuration: "3s" }}>
-              <div className="w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
-                <svg className="w-3 h-3 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
-              </div>
-              <span className="text-xs font-medium text-foreground">+$2,500</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="app-text-block space-y-6">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-[var(--neon-cyan)]/15 text-[var(--neon-cyan)] border border-[var(--neon-cyan)]/25">Mobile First</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            Banking in Your{" "}
-            <span className="bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--neon-blue)] bg-clip-text text-transparent">Pocket</span>
-          </h2>
-          <p className="text-muted-foreground max-w-lg">Download our app and take full control of your finances — send money, pay bills, invest, and more. Available on iOS and Android.</p>
-          <div className="flex gap-3">
-            <div className="px-5 py-3 rounded-xl bg-[var(--glass)] backdrop-blur border border-[var(--glass-border)] flex items-center gap-3 hover:border-primary/40 transition-all cursor-pointer">
-              <svg className="w-7 h-7 text-foreground" viewBox="0 0 24 24" fill="currentColor"><path d="M17.05 20.28c-.98.95-2.05.8-3.08.35-1.09-.46-2.09-.48-3.24 0-1.44.62-2.2.44-3.06-.35C2.79 15.25 3.51 7.59 9.05 7.31c1.35.07 2.29.74 3.08.8 1.18-.24 2.31-.93 3.57-.84 1.51.12 2.65.72 3.4 1.8-3.12 1.87-2.38 5.98.48 7.13-.57 1.5-1.31 2.99-2.54 4.09zM12.03 7.25c-.15-2.23 1.66-4.07 3.74-4.25.29 2.58-2.34 4.5-3.74 4.25z" /></svg>
-              <div><div className="text-[10px] text-muted-foreground">Download on</div><div className="text-sm font-semibold text-foreground">App Store</div></div>
-            </div>
-            <div className="px-5 py-3 rounded-xl bg-[var(--glass)] backdrop-blur border border-[var(--glass-border)] flex items-center gap-3 hover:border-primary/40 transition-all cursor-pointer">
-              <svg className="w-7 h-7 text-foreground" viewBox="0 0 24 24" fill="currentColor"><path d="M3.609 1.814L13.792 12 3.61 22.186a.996.996 0 01-.61-.92V2.734a1 1 0 01.609-.92zm10.89 10.893l2.302 2.302-10.937 6.333 8.635-8.635zm3.199-1.404l2.937 1.706-2.937 1.706L15.395 12l2.303-2.303v.606zM5.864 2.658L16.8 8.99l-2.302 2.303-8.635-8.635z" /></svg>
-              <div><div className="text-[10px] text-muted-foreground">Get it on</div><div className="text-sm font-semibold text-foreground">Google Play</div></div>
-            </div>
           </div>
         </div>
       </div>
@@ -501,98 +468,57 @@ function SecuritySection() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".sec-item", { scrollTrigger: { trigger: ".sec-grid", start: "top 80%" }, y: 50, opacity: 0, duration: 0.7, stagger: 0.12, ease: "power3.out" });
-    }, ref);
-    return () => ctx.revert();
-  }, []);
-
-  const securityFeatures = [
-    { title: "256-bit Encryption", desc: "Military-grade AES-256 encryption secures every byte of your data in transit and at rest.", icon: "🔐", img: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=400&q=80" },
-    { title: "Biometric Auth", desc: "Face ID, Touch ID, and fingerprint authentication for instant yet secure access.", icon: "👁️", img: "https://images.unsplash.com/photo-1585079542156-2755d9c8a094?w=400&q=80" },
-    { title: "Real-time Monitoring", desc: "AI-powered fraud detection monitors every transaction 24/7 and alerts you instantly.", icon: "🛡️", img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&q=80" },
-    { title: "Zero-Knowledge Proof", desc: "We can verify your identity without ever seeing your private data. True privacy by design.", icon: "🔒", img: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&q=80" },
-  ];
-
-  return (
-    <section ref={ref} className="relative py-16 md:py-20 px-6 md:px-12 overflow-hidden">
-      <div className="absolute inset-0">
-        <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80" alt="Cybersecurity background" className="w-full h-full object-cover opacity-10" loading="lazy" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background" />
-      </div>
-
-      <div className="relative max-w-7xl mx-auto text-center">
-        <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 mb-4">Bank-Level Security</span>
-        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
-          Your Money is{" "}
-          <span className="bg-gradient-to-r from-emerald-400 to-[var(--neon-cyan)] bg-clip-text text-transparent">Always Safe</span>
-        </h2>
-        <p className="text-muted-foreground max-w-2xl mx-auto mb-10">Bank-level security with advanced encryption. We protect your finances with the same technology used by the world's leading financial institutions.</p>
-
-        <div className="sec-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
-          {securityFeatures.map((f) => (
-            <div key={f.title} className="sec-item group rounded-2xl overflow-hidden bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-all duration-500 hover:border-emerald-500/40 hover:shadow-[0_0_40px_oklch(0.75_0.15_180_/_15%)] text-left">
-              <div className="h-32 overflow-hidden relative">
-                <img src={f.img} alt={f.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110 opacity-60" loading="lazy" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[oklch(0.13_0.02_270)]" />
-                <div className="absolute bottom-3 left-4 text-2xl">{f.icon}</div>
-              </div>
-              <div className="p-5">
-                <h3 className="font-bold text-lg mb-2 text-foreground">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ─────────────── Testimonials ─────────────── */
-function TestimonialsSection() {
-  const ref = useRef<HTMLDivElement>(null);
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      gsap.from(".testi-card", {
-        scrollTrigger: { trigger: ".testi-grid", start: "top 80%" },
-        y: 40, opacity: 0, duration: 0.7, stagger: 0.15, ease: "power3.out",
+      gsap.from(".sec-item", {
+        scrollTrigger: { trigger: ".sec-grid", start: "top 80%" },
+        y: 50, opacity: 0, duration: 0.7, stagger: 0.12, ease: "power3.out",
       });
     }, ref);
     return () => ctx.revert();
   }, []);
 
-  const testimonials = [
-    { name: "Sarah Chen", role: "Startup Founder", avatar: "photo-1494790108377-be9c29b29330", text: "NexBank completely changed how I manage my business finances. The dashboard is incredible and transfers are instant." },
-    { name: "Marcus Johnson", role: "Freelance Designer", avatar: "photo-1507003211169-0a1dd7228f2d", text: "I switched from my traditional bank and haven't looked back. The app is beautiful and the security gives me peace of mind." },
-    { name: "Emily Davis", role: "Product Manager", avatar: "photo-1534528741775-53994a69daeb", text: "The best banking experience I've ever had. Everything from opening an account to daily transactions is seamless." },
+  const securityFeatures = [
+    { title: "256-bit Encryption", desc: "Military-grade AES-256 encryption secures every byte of your data in transit and at rest.", icon: "🔐" },
+    { title: "Biometric Auth", desc: "Face ID, Touch ID, and fingerprint authentication for instant yet secure access.", icon: "👁️" },
+    { title: "Real-time Monitoring", desc: "AI-powered fraud detection monitors every transaction 24/7 and alerts you instantly.", icon: "🛡️" },
+    { title: "Zero-Knowledge Proof", desc: "We can verify your identity without ever seeing your private data. True privacy by design.", icon: "🔒" },
   ];
 
   return (
-    <section ref={ref} className="py-16 md:py-20 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto">
-        <div className="text-center mb-10">
-          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">What People Say</span>
-          <h2 className="text-3xl sm:text-4xl font-extrabold tracking-tight">
-            Loved by{" "}
-            <span className="bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] bg-clip-text text-transparent">Millions</span>
-          </h2>
-        </div>
-        <div className="testi-grid grid md:grid-cols-3 gap-5">
-          {testimonials.map((t) => (
-            <div key={t.name} className="testi-card p-6 rounded-2xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] hover:border-primary/30 transition-all duration-500">
-              <div className="flex items-center gap-3 mb-4">
-                <img src={`https://images.unsplash.com/${t.avatar}?w=80&h=80&fit=crop&crop=face`} alt={t.name} className="w-10 h-10 rounded-full object-cover" loading="lazy" />
-                <div>
-                  <div className="text-sm font-semibold text-foreground">{t.name}</div>
-                  <div className="text-xs text-muted-foreground">{t.role}</div>
-                </div>
-              </div>
-              <p className="text-sm text-muted-foreground leading-relaxed">"{t.text}"</p>
-              <div className="flex gap-0.5 mt-3">
-                {[1, 2, 3, 4, 5].map((s) => (
-                  <svg key={s} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
-                ))}
-              </div>
+    <section ref={ref} className="relative py-28 px-6 md:px-12 overflow-hidden">
+      {/* BG image */}
+      <div className="absolute inset-0">
+        <img
+          src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=1920&q=80"
+          alt="Cybersecurity background"
+          className="w-full h-full object-cover opacity-10"
+          loading="lazy"
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-background via-background/90 to-background" />
+      </div>
+
+      <div className="relative max-w-7xl mx-auto text-center">
+        <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-emerald-500/15 text-emerald-400 border border-emerald-500/25 mb-4">
+          Bank-Level Security
+        </span>
+        <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+          Your Money is{" "}
+          <span className="bg-gradient-to-r from-emerald-400 to-[var(--neon-cyan)] bg-clip-text text-transparent">
+            Always Safe
+          </span>
+        </h2>
+        <p className="text-muted-foreground max-w-2xl mx-auto mb-14">
+          Bank-level security with advanced encryption. We protect your finances with the same technology used by the world's leading financial institutions.
+        </p>
+
+        <div className="sec-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          {securityFeatures.map((f) => (
+            <div
+              key={f.title}
+              className="sec-item group p-6 rounded-2xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-all duration-500 hover:border-emerald-500/40 hover:shadow-[0_0_40px_oklch(0.75_0.15_180_/_15%)] text-left"
+            >
+              <div className="text-3xl mb-4">{f.icon}</div>
+              <h3 className="font-bold text-lg mb-2 text-foreground">{f.title}</h3>
+              <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
             </div>
           ))}
         </div>
@@ -604,26 +530,37 @@ function TestimonialsSection() {
 /* ─────────────── CTA ─────────────── */
 function CTASection() {
   const ref = useRef<HTMLDivElement>(null);
+
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".cta-inner", { scrollTrigger: { trigger: ".cta-inner", start: "top 85%" }, y: 40, opacity: 0, duration: 0.8, ease: "power3.out" });
+      gsap.from(".cta-inner", {
+        scrollTrigger: { trigger: ".cta-inner", start: "top 85%" },
+        y: 40, opacity: 0, duration: 0.8, ease: "power3.out",
+      });
     }, ref);
     return () => ctx.revert();
   }, []);
 
   return (
-    <section ref={ref} className="py-16 md:py-20 px-6 md:px-12">
-      <div className="cta-inner max-w-5xl mx-auto text-center p-10 md:p-14 rounded-3xl relative overflow-hidden bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_80px_oklch(0.65_0.2_260_/_30%)]">
-        <div className="absolute inset-0">
-          <img src="https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=1200&q=80" alt="" className="w-full h-full object-cover opacity-10 mix-blend-overlay" />
-          <div className="absolute inset-0 opacity-20 bg-[radial-gradient(circle_at_30%_20%,white_0%,transparent_50%)]" />
+    <section ref={ref} className="py-28 px-6 md:px-12">
+      <div className="cta-inner max-w-4xl mx-auto text-center p-12 md:p-16 rounded-3xl relative overflow-hidden bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_80px_oklch(0.65_0.2_260_/_30%)]">
+        <div className="absolute inset-0 opacity-20">
+          <div className="absolute top-0 left-0 w-full h-full bg-[radial-gradient(circle_at_30%_20%,white_0%,transparent_50%)]" />
         </div>
         <div className="relative">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">Ready to Transform Your Banking?</h2>
-          <p className="text-white/70 max-w-lg mx-auto mb-8">Join 2.4 million users who already trust NexBank for their daily finances. Open your account in under 5 minutes.</p>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+            Ready to Transform Your Banking?
+          </h2>
+          <p className="text-white/70 max-w-lg mx-auto mb-8">
+            Join 2.4 million users who already trust NexBank for their daily finances. Open your account in under 5 minutes.
+          </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <button className="px-8 py-3.5 rounded-xl font-semibold bg-white text-[oklch(0.2_0.05_270)] transition-all hover:scale-105 hover:shadow-[0_8px_30px_rgba(255,255,255,0.3)]">Open Free Account</button>
-            <button className="px-8 py-3.5 rounded-xl font-semibold border-2 border-white/30 text-white transition-all hover:bg-white/10 hover:border-white/60">Contact Sales</button>
+            <button className="px-8 py-3.5 rounded-xl font-semibold bg-white text-[oklch(0.2_0.05_270)] transition-all hover:scale-105 hover:shadow-[0_8px_30px_rgba(255,255,255,0.3)]">
+              Open Free Account
+            </button>
+            <button className="px-8 py-3.5 rounded-xl font-semibold border-2 border-white/30 text-white transition-all hover:bg-white/10 hover:border-white/60">
+              Contact Sales
+            </button>
           </div>
         </div>
       </div>
@@ -640,38 +577,37 @@ function Footer() {
   ];
 
   return (
-    <footer className="border-t border-[var(--glass-border)] py-12 px-6 md:px-12">
-      <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-10">
+    <footer className="border-t border-[var(--glass-border)] py-16 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto grid md:grid-cols-5 gap-12">
         <div className="md:col-span-2">
           <div className="flex items-center gap-2 mb-4">
-            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] flex items-center justify-center text-white font-black text-xs">N</div>
-            <span className="text-lg font-bold tracking-tight text-foreground">Nex<span className="text-primary">Bank</span></span>
+            <div className="h-8 w-8 rounded-lg bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] flex items-center justify-center text-white font-black text-xs">
+              N
+            </div>
+            <span className="text-lg font-bold tracking-tight text-foreground">
+              Nex<span className="text-primary">Bank</span>
+            </span>
           </div>
-          <p className="text-sm text-muted-foreground max-w-xs leading-relaxed mb-4">Next-generation digital banking for the modern world. Secure, fast, and beautifully simple.</p>
-          {/* Social icons */}
-          <div className="flex gap-3">
-            {["M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z",
-              "M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z M4 2a2 2 0 100 4 2 2 0 000-4z",
-              "M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z",
-            ].map((d, i) => (
-              <button key={i} className="w-8 h-8 rounded-lg bg-[var(--glass)] border border-[var(--glass-border)] flex items-center justify-center hover:border-primary/40 transition-all">
-                <svg className="w-3.5 h-3.5 text-muted-foreground" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24"><path d={d} /></svg>
-              </button>
-            ))}
-          </div>
+          <p className="text-sm text-muted-foreground max-w-xs leading-relaxed">
+            Next-generation digital banking for the modern world. Secure, fast, and beautifully simple.
+          </p>
         </div>
         {cols.map((col) => (
           <div key={col.title}>
             <div className="font-semibold text-sm text-foreground mb-4">{col.title}</div>
             <ul className="space-y-2.5">
               {col.links.map((l) => (
-                <li key={l}><button className="text-sm text-muted-foreground hover:text-foreground transition-colors">{l}</button></li>
+                <li key={l}>
+                  <button className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+                    {l}
+                  </button>
+                </li>
               ))}
             </ul>
           </div>
         ))}
       </div>
-      <div className="max-w-7xl mx-auto mt-10 pt-6 border-t border-[var(--glass-border)] flex flex-col md:flex-row justify-between items-center gap-4">
+      <div className="max-w-7xl mx-auto mt-12 pt-8 border-t border-[var(--glass-border)] flex flex-col md:flex-row justify-between items-center gap-4">
         <div className="text-xs text-muted-foreground">© 2026 NexBank. All rights reserved.</div>
         <div className="flex gap-6 text-xs text-muted-foreground">
           <button className="hover:text-foreground transition-colors">Privacy</button>
@@ -689,13 +625,9 @@ function Index() {
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
       <HeroSection />
-      <TrustedBySection />
       <FeaturesSection />
-      <ShowcaseBanner />
       <DashboardSection />
-      <AppPreviewSection />
       <SecuritySection />
-      <TestimonialsSection />
       <CTASection />
       <Footer />
     </div>
