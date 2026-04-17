@@ -159,9 +159,10 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-blue)]/10 via-transparent to-[var(--neon-purple)]/10" />
       </div>
 
-      {/* Glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[var(--neon-blue)] opacity-[0.07] blur-[120px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[var(--neon-purple)] opacity-[0.07] blur-[120px]" />
+      {/* Animated glow orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[var(--neon-blue)] opacity-[0.08] blur-[120px] animate-float-slow" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[var(--neon-purple)] opacity-[0.08] blur-[120px] animate-float-reverse" />
+      <div className="absolute top-1/2 right-1/3 w-[300px] h-[300px] rounded-full bg-[var(--neon-cyan)] opacity-[0.05] blur-[100px] animate-pulse-glow" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 items-center">
         {/* Text */}
