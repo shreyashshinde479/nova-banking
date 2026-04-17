@@ -907,9 +907,13 @@ function Index() {
       <Navbar />
       <HeroSection />
       <TrustMarquee />
+      <StatsBanner />
       <FeaturesSection />
+      <HowItWorksSection />
       <DashboardSection />
       <SecuritySection />
+      <TestimonialsSection />
+      <FAQSection />
       <CTASection />
       <Footer />
     </div>
