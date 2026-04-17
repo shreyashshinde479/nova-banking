@@ -622,12 +622,35 @@ function Footer() {
   );
 }
 
+/* ─────────────── Trust Marquee ─────────────── */
+function TrustMarquee() {
+  const items = ["VISA", "Mastercard", "PayPal", "Stripe", "American Express", "Apple Pay", "Google Pay", "SWIFT"];
+  const loop = [...items, ...items];
+  return (
+    <section className="py-10 border-y border-[var(--glass-border)] bg-[var(--glass)] backdrop-blur overflow-hidden">
+      <div className="text-center text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6">
+        Trusted by leading payment networks
+      </div>
+      <div className="relative">
+        <div className="flex gap-16 animate-marquee whitespace-nowrap w-max">
+          {loop.map((item, i) => (
+            <span key={i} className="text-2xl font-bold text-muted-foreground/60 hover:text-foreground transition-colors">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─────────────── Main Page ─────────────── */
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
       <HeroSection />
+      <TrustMarquee />
       <FeaturesSection />
       <DashboardSection />
       <SecuritySection />
