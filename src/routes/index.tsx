@@ -3,7 +3,9 @@ import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-gsap.registerPlugin(ScrollTrigger);
+if (typeof window !== "undefined") {
+  gsap.registerPlugin(ScrollTrigger);
+}
 
 export const Route = createFileRoute("/")({
   component: Index,
@@ -157,9 +159,10 @@ function HeroSection() {
         <div className="absolute inset-0 bg-gradient-to-r from-[var(--neon-blue)]/10 via-transparent to-[var(--neon-purple)]/10" />
       </div>
 
-      {/* Glow orbs */}
-      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[var(--neon-blue)] opacity-[0.07] blur-[120px]" />
-      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[var(--neon-purple)] opacity-[0.07] blur-[120px]" />
+      {/* Animated glow orbs */}
+      <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] rounded-full bg-[var(--neon-blue)] opacity-[0.08] blur-[120px] animate-float-slow" />
+      <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] rounded-full bg-[var(--neon-purple)] opacity-[0.08] blur-[120px] animate-float-reverse" />
+      <div className="absolute top-1/2 right-1/3 w-[300px] h-[300px] rounded-full bg-[var(--neon-cyan)] opacity-[0.05] blur-[100px] animate-pulse-glow" />
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-6 md:px-12 grid md:grid-cols-2 gap-12 items-center">
         {/* Text */}
@@ -170,7 +173,7 @@ function HeroSection() {
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
               Next Generation{" "}
-              <span className="bg-gradient-to-r from-[var(--neon-blue)] via-[var(--neon-cyan)] to-[var(--neon-purple)] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--neon-blue)] via-[var(--neon-cyan)] to-[var(--neon-purple)] bg-clip-text text-transparent animate-gradient-shift">
                 Digital Banking
               </span>{" "}
               Experience
@@ -224,10 +227,11 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Floating stat pill */}
+          {/* Floating stat pill with pulsing ring */}
           <div className="hero-card absolute top-1/2 left-12 px-4 py-2.5 rounded-xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] flex items-center gap-3 shadow-lg">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+            <div className="relative w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <span className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping-slow" />
+              <svg className="relative w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
             </div>
             <div>
               <div className="text-[10px] text-muted-foreground">Monthly Growth</div>
@@ -619,12 +623,35 @@ function Footer() {
   );
 }
 
+/* ─────────────── Trust Marquee ─────────────── */
+function TrustMarquee() {
+  const items = ["VISA", "Mastercard", "PayPal", "Stripe", "American Express", "Apple Pay", "Google Pay", "SWIFT"];
+  const loop = [...items, ...items];
+  return (
+    <section className="py-10 border-y border-[var(--glass-border)] bg-[var(--glass)] backdrop-blur overflow-hidden">
+      <div className="text-center text-xs uppercase tracking-[0.3em] text-muted-foreground mb-6">
+        Trusted by leading payment networks
+      </div>
+      <div className="relative">
+        <div className="flex gap-16 animate-marquee whitespace-nowrap w-max">
+          {loop.map((item, i) => (
+            <span key={i} className="text-2xl font-bold text-muted-foreground/60 hover:text-foreground transition-colors">
+              {item}
+            </span>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─────────────── Main Page ─────────────── */
 function Index() {
   return (
     <div className="min-h-screen bg-background text-foreground overflow-x-hidden">
       <Navbar />
       <HeroSection />
+      <TrustMarquee />
       <FeaturesSection />
       <DashboardSection />
       <SecuritySection />
