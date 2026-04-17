@@ -572,6 +572,261 @@ function CTASection() {
   );
 }
 
+/* ─────────────── Stats Banner ─────────────── */
+function StatsBanner() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".stat-item", {
+        scrollTrigger: { trigger: ".stat-row", start: "top 85%" },
+        y: 30, opacity: 0, duration: 0.7, stagger: 0.12, ease: "power3.out",
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+  const stats = [
+    { value: "$48B+", label: "Assets Managed", sub: "Across 150 countries" },
+    { value: "2.4M+", label: "Active Customers", sub: "Growing 18% YoY" },
+    { value: "10M+", label: "Daily Transactions", sub: "Avg. 0.3s settlement" },
+    { value: "99.99%", label: "Platform Uptime", sub: "SLA guaranteed" },
+  ];
+  return (
+    <section ref={ref} className="py-20 px-6 md:px-12 border-y border-[var(--glass-border)] bg-[var(--glass)] backdrop-blur">
+      <div className="stat-row max-w-7xl mx-auto grid grid-cols-2 lg:grid-cols-4 gap-8">
+        {stats.map((s) => (
+          <div key={s.label} className="stat-item text-center">
+            <div className="text-4xl md:text-5xl font-extrabold bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] bg-clip-text text-transparent mb-2">
+              {s.value}
+            </div>
+            <div className="text-sm font-semibold text-foreground mb-1">{s.label}</div>
+            <div className="text-xs text-muted-foreground">{s.sub}</div>
+          </div>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────── How It Works ─────────────── */
+function HowItWorksSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".step-card", {
+        scrollTrigger: { trigger: ".step-grid", start: "top 80%" },
+        y: 60, opacity: 0, duration: 0.7, stagger: 0.18, ease: "power3.out",
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+  const steps = [
+    {
+      n: "01",
+      title: "Sign Up in 2 Minutes",
+      desc: "Create your account with just an email and phone number. No paperwork, no branch visits — fully digital onboarding with instant identity verification.",
+      img: "https://images.unsplash.com/photo-1512486130939-2c4f79935e4f?w=600&q=80",
+    },
+    {
+      n: "02",
+      title: "Verify & Get Approved",
+      desc: "Snap a photo of your ID and complete a quick selfie check. Our AI-powered KYC system verifies you in under 60 seconds with bank-grade accuracy.",
+      img: "https://images.unsplash.com/photo-1556742502-ec7c0e9f34b1?w=600&q=80",
+    },
+    {
+      n: "03",
+      title: "Start Banking Instantly",
+      desc: "Receive your virtual card immediately and your physical card within 3 days. Send money, pay bills, invest, and grow — all from one beautiful app.",
+      img: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
+    },
+  ];
+  return (
+    <section ref={ref} className="relative py-28 px-6 md:px-12">
+      <div className="max-w-7xl mx-auto">
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">
+            Get Started in Minutes
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+            How{" "}
+            <span className="bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--neon-blue)] bg-clip-text text-transparent">
+              NexBank Works
+            </span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Three simple steps to take control of your financial future. No hidden fees, no waiting lines.
+          </p>
+        </div>
+        <div className="step-grid grid md:grid-cols-3 gap-6">
+          {steps.map((s) => (
+            <div
+              key={s.n}
+              className="step-card group relative rounded-2xl overflow-hidden bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-all duration-500 hover:border-primary/50 hover:-translate-y-2"
+            >
+              <div className="h-48 overflow-hidden relative">
+                <img src={s.img} alt={s.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                <div className="absolute inset-0 bg-gradient-to-t from-[var(--glass)] via-transparent to-transparent" />
+                <span className="absolute top-4 left-4 text-5xl font-extrabold bg-gradient-to-br from-[var(--neon-blue)] to-[var(--neon-purple)] bg-clip-text text-transparent drop-shadow-lg">
+                  {s.n}
+                </span>
+              </div>
+              <div className="p-6">
+                <h3 className="font-bold text-xl mb-2 text-foreground">{s.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{s.desc}</p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────── Testimonials ─────────────── */
+function TestimonialsSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".testi-card", {
+        scrollTrigger: { trigger: ".testi-grid", start: "top 80%" },
+        y: 50, opacity: 0, duration: 0.7, stagger: 0.15, ease: "power3.out",
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+  const testimonials = [
+    {
+      quote: "NexBank completely changed how I manage money. The instant transfers and zero fees saved me hundreds last year alone.",
+      name: "Sarah Chen",
+      role: "Product Designer",
+      avatar: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=200&q=80",
+    },
+    {
+      quote: "As a freelancer, getting paid from international clients used to be a nightmare. NexBank handles everything seamlessly in 30+ currencies.",
+      name: "Marcus Rivera",
+      role: "Freelance Developer",
+      avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=200&q=80",
+    },
+    {
+      quote: "The dashboard insights helped me cut unnecessary spending by 30%. Best banking app I've ever used — period.",
+      name: "Priya Sharma",
+      role: "Startup Founder",
+      avatar: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=200&q=80",
+    },
+  ];
+  return (
+    <section ref={ref} className="relative py-28 px-6 md:px-12 overflow-hidden">
+      <div className="absolute top-1/2 left-0 w-[400px] h-[400px] rounded-full bg-[var(--neon-purple)] opacity-[0.06] blur-[120px]" />
+      <div className="max-w-7xl mx-auto relative">
+        <div className="text-center mb-16">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">
+            Loved by Millions
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+            What Our{" "}
+            <span className="bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] bg-clip-text text-transparent">
+              Customers Say
+            </span>
+          </h2>
+          <p className="text-muted-foreground max-w-2xl mx-auto">
+            Join 2.4 million people who already made the switch to smarter banking.
+          </p>
+        </div>
+        <div className="testi-grid grid md:grid-cols-3 gap-6">
+          {testimonials.map((t) => (
+            <div
+              key={t.name}
+              className="testi-card group p-7 rounded-2xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-all duration-500 hover:border-primary/50 hover:-translate-y-2 hover:shadow-[0_0_40px_oklch(0.65_0.2_260_/_15%)]"
+            >
+              <div className="flex gap-1 mb-4">
+                {[...Array(5)].map((_, i) => (
+                  <svg key={i} className="w-4 h-4 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+                ))}
+              </div>
+              <p className="text-foreground/90 leading-relaxed mb-6 text-sm">"{t.quote}"</p>
+              <div className="flex items-center gap-3 pt-4 border-t border-[var(--glass-border)]">
+                <img src={t.avatar} alt={t.name} className="w-11 h-11 rounded-full object-cover border-2 border-[var(--glass-border)]" loading="lazy" />
+                <div>
+                  <div className="text-sm font-semibold text-foreground">{t.name}</div>
+                  <div className="text-xs text-muted-foreground">{t.role}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ─────────────── FAQ ─────────────── */
+function FAQSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const [open, setOpen] = useState<number | null>(0);
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      gsap.from(".faq-item", {
+        scrollTrigger: { trigger: ".faq-list", start: "top 85%" },
+        y: 30, opacity: 0, duration: 0.6, stagger: 0.08, ease: "power3.out",
+      });
+    }, ref);
+    return () => ctx.revert();
+  }, []);
+  const faqs = [
+    { q: "Is NexBank a real bank?", a: "Yes. NexBank is a fully licensed digital bank, regulated and FDIC-insured up to $250,000 per depositor. Your money is as safe as it would be at any traditional bank." },
+    { q: "Are there any hidden fees?", a: "Absolutely none. We charge zero monthly maintenance fees, zero transfer fees within our network, and no minimum balance requirements. International transfers use mid-market exchange rates." },
+    { q: "How long does it take to open an account?", a: "Most customers complete onboarding in under 2 minutes. You'll receive a virtual card immediately and your physical card arrives within 3 business days." },
+    { q: "Can I use NexBank internationally?", a: "Yes! NexBank works in 150+ countries with support for 30+ currencies. Use your card abroad with zero foreign transaction fees and real-time currency conversion." },
+    { q: "How secure is my money?", a: "We use military-grade 256-bit AES encryption, biometric authentication, and 24/7 AI fraud monitoring. All deposits are FDIC-insured, and we maintain SOC 2 Type II compliance." },
+    { q: "Do you offer business accounts?", a: "Yes. NexBank Business gives you everything personal accounts offer plus invoicing, expense tracking, multi-user access, and integrations with QuickBooks, Xero, and more." },
+  ];
+  return (
+    <section ref={ref} className="relative py-28 px-6 md:px-12">
+      <div className="max-w-3xl mx-auto">
+        <div className="text-center mb-14">
+          <span className="inline-block px-4 py-1.5 rounded-full text-xs font-medium bg-primary/15 text-primary border border-primary/25 mb-4">
+            FAQ
+          </span>
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight mb-4">
+            Frequently Asked{" "}
+            <span className="bg-gradient-to-r from-[var(--neon-cyan)] to-[var(--neon-blue)] bg-clip-text text-transparent">
+              Questions
+            </span>
+          </h2>
+          <p className="text-muted-foreground">Everything you need to know about NexBank. Can't find an answer? Contact our support team.</p>
+        </div>
+        <div className="faq-list space-y-3">
+          {faqs.map((f, i) => (
+            <div
+              key={i}
+              className="faq-item rounded-xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] overflow-hidden transition-all hover:border-primary/40"
+            >
+              <button
+                onClick={() => setOpen(open === i ? null : i)}
+                className="w-full flex items-center justify-between p-5 text-left"
+              >
+                <span className="font-semibold text-foreground pr-4">{f.q}</span>
+                <svg
+                  className={`w-5 h-5 text-primary shrink-0 transition-transform duration-300 ${open === i ? "rotate-180" : ""}`}
+                  fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"
+                >
+                  <path d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              <div
+                className={`grid transition-all duration-300 ${open === i ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}
+              >
+                <div className="overflow-hidden">
+                  <p className="px-5 pb-5 text-sm text-muted-foreground leading-relaxed">{f.a}</p>
+                </div>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
 /* ─────────────── Footer ─────────────── */
 function Footer() {
   const cols = [
@@ -652,9 +907,13 @@ function Index() {
       <Navbar />
       <HeroSection />
       <TrustMarquee />
+      <StatsBanner />
       <FeaturesSection />
+      <HowItWorksSection />
       <DashboardSection />
       <SecuritySection />
+      <TestimonialsSection />
+      <FAQSection />
       <CTASection />
       <Footer />
     </div>
