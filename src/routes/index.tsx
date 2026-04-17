@@ -227,10 +227,11 @@ function HeroSection() {
             </div>
           </div>
 
-          {/* Floating stat pill */}
+          {/* Floating stat pill with pulsing ring */}
           <div className="hero-card absolute top-1/2 left-12 px-4 py-2.5 rounded-xl bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] flex items-center gap-3 shadow-lg">
-            <div className="w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
-              <svg className="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
+            <div className="relative w-8 h-8 rounded-full bg-emerald-500/20 flex items-center justify-center">
+              <span className="absolute inset-0 rounded-full bg-emerald-500/40 animate-ping-slow" />
+              <svg className="relative w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24"><path d="M5 10l7-7m0 0l7 7m-7-7v18" /></svg>
             </div>
             <div>
               <div className="text-[10px] text-muted-foreground">Monthly Growth</div>
