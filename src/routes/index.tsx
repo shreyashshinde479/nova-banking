@@ -2,6 +2,7 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TiltCard from "@/components/TiltCard";
 
 if (typeof window !== "undefined") {
   gsap.registerPlugin(ScrollTrigger);
@@ -323,22 +324,21 @@ function FeaturesSection() {
 
         <div className="feat-grid grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {features.map((f) => (
-            <div
-              key={f.title}
-              className="feat-card group relative rounded-2xl overflow-hidden bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-all duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_oklch(0.65_0.2_260_/_20%)] hover:-translate-y-2"
-            >
-              <div className="h-40 overflow-hidden">
-                <img src={f.img} alt={f.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
-                <div className="absolute inset-0 h-40 bg-gradient-to-b from-transparent to-[var(--glass)]" />
-              </div>
-              <div className="p-5 relative">
-                <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-3 border border-primary/25">
-                  {f.icon}
+            <TiltCard key={f.title} className="feat-card">
+              <div className="group relative rounded-2xl overflow-hidden bg-[var(--glass)] backdrop-blur-xl border border-[var(--glass-border)] transition-colors duration-500 hover:border-primary/50 hover:shadow-[0_0_40px_oklch(0.65_0.2_260_/_25%)] h-full">
+                <div className="h-40 overflow-hidden relative">
+                  <img src={f.img} alt={f.title} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" loading="lazy" />
+                  <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--glass)]" />
                 </div>
-                <h3 className="font-bold text-lg mb-2 text-foreground">{f.title}</h3>
-                <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                <div className="p-5 relative" style={{ transform: "translateZ(40px)" }}>
+                  <div className="w-10 h-10 rounded-xl bg-primary/15 text-primary flex items-center justify-center mb-3 border border-primary/25">
+                    {f.icon}
+                  </div>
+                  <h3 className="font-bold text-lg mb-2 text-foreground">{f.title}</h3>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{f.desc}</p>
+                </div>
               </div>
-            </div>
+            </TiltCard>
           ))}
         </div>
       </div>
