@@ -173,7 +173,7 @@ function HeroSection() {
             </span>
             <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tight">
               Next Generation{" "}
-              <span className="bg-gradient-to-r from-[var(--neon-blue)] via-[var(--neon-cyan)] to-[var(--neon-purple)] bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-[var(--neon-blue)] via-[var(--neon-cyan)] to-[var(--neon-purple)] bg-clip-text text-transparent animate-gradient-shift">
                 Digital Banking
               </span>{" "}
               Experience
