@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -71,12 +71,12 @@ function Navbar() {
 
         {/* Auth buttons — hidden on mobile */}
         <div className="hidden md:flex items-center gap-3">
-          <button className="px-5 py-2 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary hover:text-primary">
+          <Link to="/login" className="px-5 py-2 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary hover:text-primary">
             Login
-          </button>
-          <button className="px-5 py-2 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)] transition-all hover:shadow-[0_0_36px_oklch(0.65_0.2_260_/_55%)] hover:scale-105">
+          </Link>
+          <Link to="/signup" className="px-5 py-2 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)] transition-all hover:shadow-[0_0_36px_oklch(0.65_0.2_260_/_55%)] hover:scale-105">
             Sign Up
-          </button>
+          </Link>
         </div>
 
         {/* Hamburger — visible on mobile */}
@@ -107,18 +107,20 @@ function Navbar() {
             </button>
           ))}
           <div className="flex flex-col gap-3 mt-4 w-56">
-            <button
+            <Link
+              to="/login"
               onClick={() => setMobileOpen(false)}
-              className="w-full py-3 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary"
+              className="w-full py-3 text-sm rounded-lg border border-[var(--glass-border)] text-foreground transition-all hover:border-primary text-center"
             >
               Login
-            </button>
-            <button
+            </Link>
+            <Link
+              to="/signup"
               onClick={() => setMobileOpen(false)}
-              className="w-full py-3 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)]"
+              className="w-full py-3 text-sm rounded-lg font-medium text-white bg-gradient-to-r from-[var(--neon-blue)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_35%)] text-center"
             >
               Sign Up
-            </button>
+            </Link>
           </div>
         </div>
       </div>
