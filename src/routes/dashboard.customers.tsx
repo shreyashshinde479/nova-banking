@@ -61,6 +61,17 @@ type FormState = {
 };
 
 const initialForm: FormState = {
+  fullName: "Aarav Sharma",
+  phone: "9876543210",
+  email: "aarav.sharma@example.com",
+  address: "221B Baker Street, Mumbai, MH",
+  pin: "400001",
+  aadhar: "234512345678",
+  dob: "1995-08-15",
+  status: "active",
+};
+
+const emptyForm: FormState = {
   fullName: "",
   phone: "",
   email: "",
@@ -71,12 +82,36 @@ const initialForm: FormState = {
   status: "active",
 };
 
+type Particle = {
+  id: number;
+  angle: number;
+  distance: number;
+  color: string;
+  size: number;
+  rot: number;
+  shape: "rect" | "circle" | "star";
+  duration: number;
+};
+
+const PARTICLE_COLORS = [
+  "oklch(0.8 0.15 195)",
+  "oklch(0.65 0.2 260)",
+  "oklch(0.6 0.25 300)",
+  "oklch(0.85 0.18 90)",
+  "oklch(0.75 0.2 30)",
+  "oklch(0.8 0.2 140)",
+];
+
 function CustomerManagementPage() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [success, setSuccess] = useState(false);
   const [searchAadhar, setSearchAadhar] = useState("");
   const [searchError, setSearchError] = useState("");
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [burstOrigin, setBurstOrigin] = useState({ x: 0, y: 0 });
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
 
   // Live KYC progress ring
   const completion = useMemo(() => {
@@ -112,16 +147,42 @@ function CustomerManagementPage() {
     return Object.keys(next).length === 0;
   };
 
+  const fireConfetti = () => {
+    const page = pageRef.current;
+    const btn = submitBtnRef.current;
+    if (!page || !btn) return;
+    const pageRect = page.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    setBurstOrigin({
+      x: btnRect.left - pageRect.left + btnRect.width / 2,
+      y: btnRect.top - pageRect.top + btnRect.height / 2,
+    });
+
+    const shapes: Particle["shape"][] = ["rect", "circle", "star"];
+    const burst: Particle[] = Array.from({ length: 90 }).map((_, i) => ({
+      id: Date.now() + i,
+      angle: Math.random() * Math.PI * 2,
+      distance: 180 + Math.random() * 320,
+      color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
+      size: 6 + Math.random() * 10,
+      rot: Math.random() * 720 - 360,
+      shape: shapes[Math.floor(Math.random() * shapes.length)],
+      duration: 1100 + Math.random() * 900,
+    }));
+    setParticles(burst);
+    window.setTimeout(() => setParticles([]), 2200);
+  };
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      setSuccess(true);
-      setForm(initialForm);
-    }
+    // Demo mode: celebrate immediately on click
+    setSuccess(true);
+    setErrors({});
+    fireConfetti();
   };
 
   const onReset = () => {
-    setForm(initialForm);
+    setForm(emptyForm);
     setErrors({});
     setSuccess(false);
   };
@@ -140,7 +201,7 @@ function CustomerManagementPage() {
     : "•••• •••• ••••";
 
   return (
-    <div className="min-h-screen w-full bg-background text-foreground relative overflow-hidden">
+    <div ref={pageRef} className="min-h-screen w-full bg-background text-foreground relative overflow-hidden">
       {/* Aurora mesh background */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-[oklch(0.1_0.03_280)] to-background" />
       <div className="aurora-layer -z-10" />
@@ -284,6 +345,7 @@ function CustomerManagementPage() {
 
               <div className="sm:col-span-2 flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
+                  ref={submitBtnRef}
                   type="submit"
                   className="relative h-11 flex-1 text-white font-semibold bg-gradient-to-r from-[var(--neon-blue)] via-[var(--primary)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_40%)] hover:shadow-[0_0_50px_oklch(0.65_0.2_260_/_75%)] hover:scale-[1.01] transition-all overflow-hidden btn-shimmer"
                 >
@@ -364,6 +426,38 @@ function CustomerManagementPage() {
         </div>
       </main>
 
+      {/* 🎉 Confetti burst overlay */}
+      <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
+        {particles.map((p) => {
+          const dx = Math.cos(p.angle) * p.distance;
+          const dy = Math.sin(p.angle) * p.distance;
+          const style: React.CSSProperties = {
+            position: "absolute",
+            left: burstOrigin.x,
+            top: burstOrigin.y,
+            width: p.size,
+            height: p.shape === "rect" ? p.size * 0.4 : p.size,
+            background: p.shape === "star" ? "transparent" : p.color,
+            color: p.color,
+            borderRadius: p.shape === "circle" ? "50%" : p.shape === "rect" ? "2px" : "0",
+            // CSS variables consumed by the keyframe
+            ["--dx" as string]: `${dx}px`,
+            ["--dy" as string]: `${dy}px`,
+            ["--rot" as string]: `${p.rot}deg`,
+            animation: `confettiFly ${p.duration}ms cubic-bezier(0.15, 0.6, 0.3, 1) forwards`,
+            boxShadow: p.shape !== "star" ? `0 0 8px ${p.color}` : undefined,
+            transform: "translate(-50%, -50%)",
+            willChange: "transform, opacity",
+          };
+          if (p.shape === "star") {
+            return (
+              <div key={p.id} style={style} className="confetti-star" />
+            );
+          }
+          return <div key={p.id} style={style} />;
+        })}
+      </div>
+
       <style>{`
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(16px); }
@@ -442,6 +536,31 @@ function CustomerManagementPage() {
           animation: btnShimmerMove 2.8s ease-in-out infinite;
         }
         .holo-card { animation: holoFloat 6s ease-in-out infinite; }
+
+        @keyframes confettiFly {
+          0%   { transform: translate(-50%, -50%) rotate(0deg) scale(0.6); opacity: 1; }
+          15%  { transform: translate(calc(-50% + var(--dx) * 0.25), calc(-50% + var(--dy) * 0.25)) rotate(calc(var(--rot) * 0.25)) scale(1); opacity: 1; }
+          70%  { opacity: 1; }
+          100% {
+            transform:
+              translate(
+                calc(-50% + var(--dx)),
+                calc(-50% + var(--dy) + 220px)
+              )
+              rotate(var(--rot))
+              scale(0.85);
+            opacity: 0;
+          }
+        }
+        .confetti-star {
+          background: currentColor;
+          clip-path: polygon(
+            50% 0%, 61% 35%, 98% 35%, 68% 57%,
+            79% 91%, 50% 70%, 21% 91%, 32% 57%,
+            2% 35%, 39% 35%
+          );
+          filter: drop-shadow(0 0 6px currentColor);
+        }
       `}</style>
     </div>
   );
