@@ -536,6 +536,31 @@ function CustomerManagementPage() {
           animation: btnShimmerMove 2.8s ease-in-out infinite;
         }
         .holo-card { animation: holoFloat 6s ease-in-out infinite; }
+
+        @keyframes confettiFly {
+          0%   { transform: translate(-50%, -50%) rotate(0deg) scale(0.6); opacity: 1; }
+          15%  { transform: translate(calc(-50% + var(--dx) * 0.25), calc(-50% + var(--dy) * 0.25)) rotate(calc(var(--rot) * 0.25)) scale(1); opacity: 1; }
+          70%  { opacity: 1; }
+          100% {
+            transform:
+              translate(
+                calc(-50% + var(--dx)),
+                calc(-50% + var(--dy) + 220px)
+              )
+              rotate(var(--rot))
+              scale(0.85);
+            opacity: 0;
+          }
+        }
+        .confetti-star {
+          background: currentColor;
+          clip-path: polygon(
+            50% 0%, 61% 35%, 98% 35%, 68% 57%,
+            79% 91%, 50% 70%, 21% 91%, 32% 57%,
+            2% 35%, 39% 35%
+          );
+          filter: drop-shadow(0 0 6px currentColor);
+        }
       `}</style>
     </div>
   );
