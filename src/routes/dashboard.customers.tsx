@@ -201,7 +201,7 @@ function CustomerManagementPage() {
     : "•••• •••• ••••";
 
   return (
-    <div className="min-h-screen w-full bg-background text-foreground relative overflow-hidden">
+    <div ref={pageRef} className="min-h-screen w-full bg-background text-foreground relative overflow-hidden">
       {/* Aurora mesh background */}
       <div className="absolute inset-0 -z-10 bg-gradient-to-br from-background via-[oklch(0.1_0.03_280)] to-background" />
       <div className="aurora-layer -z-10" />
@@ -345,6 +345,7 @@ function CustomerManagementPage() {
 
               <div className="sm:col-span-2 flex flex-col sm:flex-row gap-3 pt-2">
                 <Button
+                  ref={submitBtnRef}
                   type="submit"
                   className="relative h-11 flex-1 text-white font-semibold bg-gradient-to-r from-[var(--neon-blue)] via-[var(--primary)] to-[var(--neon-purple)] shadow-[0_0_24px_oklch(0.65_0.2_260_/_40%)] hover:shadow-[0_0_50px_oklch(0.65_0.2_260_/_75%)] hover:scale-[1.01] transition-all overflow-hidden btn-shimmer"
                 >
