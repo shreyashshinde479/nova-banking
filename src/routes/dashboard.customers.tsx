@@ -426,6 +426,38 @@ function CustomerManagementPage() {
         </div>
       </main>
 
+      {/* 🎉 Confetti burst overlay */}
+      <div className="pointer-events-none absolute inset-0 z-30 overflow-hidden">
+        {particles.map((p) => {
+          const dx = Math.cos(p.angle) * p.distance;
+          const dy = Math.sin(p.angle) * p.distance;
+          const style: React.CSSProperties = {
+            position: "absolute",
+            left: burstOrigin.x,
+            top: burstOrigin.y,
+            width: p.size,
+            height: p.shape === "rect" ? p.size * 0.4 : p.size,
+            background: p.shape === "star" ? "transparent" : p.color,
+            color: p.color,
+            borderRadius: p.shape === "circle" ? "50%" : p.shape === "rect" ? "2px" : "0",
+            // CSS variables consumed by the keyframe
+            ["--dx" as string]: `${dx}px`,
+            ["--dy" as string]: `${dy}px`,
+            ["--rot" as string]: `${p.rot}deg`,
+            animation: `confettiFly ${p.duration}ms cubic-bezier(0.15, 0.6, 0.3, 1) forwards`,
+            boxShadow: p.shape !== "star" ? `0 0 8px ${p.color}` : undefined,
+            transform: "translate(-50%, -50%)",
+            willChange: "transform, opacity",
+          };
+          if (p.shape === "star") {
+            return (
+              <div key={p.id} style={style} className="confetti-star" />
+            );
+          }
+          return <div key={p.id} style={style} />;
+        })}
+      </div>
+
       <style>{`
         @keyframes fadeSlideUp {
           from { opacity: 0; transform: translateY(16px); }
