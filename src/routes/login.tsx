@@ -26,6 +26,7 @@ function GoogleIcon() {
 }
 
 function LoginPage() {
+  const navigate = useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPw, setShowPw] = useState(false);
@@ -37,6 +38,9 @@ function LoginPage() {
     if (!email.trim()) next.email = "Email is required";
     if (!password) next.password = "Password is required";
     setErrors(next);
+    if (Object.keys(next).length === 0) {
+      navigate({ to: "/dashboard/customers" });
+    }
   };
 
   return (
