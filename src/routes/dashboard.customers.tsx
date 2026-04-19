@@ -61,6 +61,17 @@ type FormState = {
 };
 
 const initialForm: FormState = {
+  fullName: "Aarav Sharma",
+  phone: "9876543210",
+  email: "aarav.sharma@example.com",
+  address: "221B Baker Street, Mumbai, MH",
+  pin: "400001",
+  aadhar: "234512345678",
+  dob: "1995-08-15",
+  status: "active",
+};
+
+const emptyForm: FormState = {
   fullName: "",
   phone: "",
   email: "",
@@ -71,12 +82,36 @@ const initialForm: FormState = {
   status: "active",
 };
 
+type Particle = {
+  id: number;
+  angle: number;
+  distance: number;
+  color: string;
+  size: number;
+  rot: number;
+  shape: "rect" | "circle" | "star";
+  duration: number;
+};
+
+const PARTICLE_COLORS = [
+  "oklch(0.8 0.15 195)",
+  "oklch(0.65 0.2 260)",
+  "oklch(0.6 0.25 300)",
+  "oklch(0.85 0.18 90)",
+  "oklch(0.75 0.2 30)",
+  "oklch(0.8 0.2 140)",
+];
+
 function CustomerManagementPage() {
   const [form, setForm] = useState<FormState>(initialForm);
   const [errors, setErrors] = useState<Partial<Record<keyof FormState, string>>>({});
   const [success, setSuccess] = useState(false);
   const [searchAadhar, setSearchAadhar] = useState("");
   const [searchError, setSearchError] = useState("");
+  const [particles, setParticles] = useState<Particle[]>([]);
+  const [burstOrigin, setBurstOrigin] = useState({ x: 0, y: 0 });
+  const submitBtnRef = useRef<HTMLButtonElement>(null);
+  const pageRef = useRef<HTMLDivElement>(null);
 
   // Live KYC progress ring
   const completion = useMemo(() => {
@@ -112,16 +147,42 @@ function CustomerManagementPage() {
     return Object.keys(next).length === 0;
   };
 
+  const fireConfetti = () => {
+    const page = pageRef.current;
+    const btn = submitBtnRef.current;
+    if (!page || !btn) return;
+    const pageRect = page.getBoundingClientRect();
+    const btnRect = btn.getBoundingClientRect();
+    setBurstOrigin({
+      x: btnRect.left - pageRect.left + btnRect.width / 2,
+      y: btnRect.top - pageRect.top + btnRect.height / 2,
+    });
+
+    const shapes: Particle["shape"][] = ["rect", "circle", "star"];
+    const burst: Particle[] = Array.from({ length: 90 }).map((_, i) => ({
+      id: Date.now() + i,
+      angle: Math.random() * Math.PI * 2,
+      distance: 180 + Math.random() * 320,
+      color: PARTICLE_COLORS[Math.floor(Math.random() * PARTICLE_COLORS.length)],
+      size: 6 + Math.random() * 10,
+      rot: Math.random() * 720 - 360,
+      shape: shapes[Math.floor(Math.random() * shapes.length)],
+      duration: 1100 + Math.random() * 900,
+    }));
+    setParticles(burst);
+    window.setTimeout(() => setParticles([]), 2200);
+  };
+
   const onSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (validate()) {
-      setSuccess(true);
-      setForm(initialForm);
-    }
+    // Demo mode: celebrate immediately on click
+    setSuccess(true);
+    setErrors({});
+    fireConfetti();
   };
 
   const onReset = () => {
-    setForm(initialForm);
+    setForm(emptyForm);
     setErrors({});
     setSuccess(false);
   };
